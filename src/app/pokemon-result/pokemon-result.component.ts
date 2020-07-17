@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-pokemon-result',
+  selector: 'pokemon-result',
   templateUrl: './pokemon-result.component.html',
   styleUrls: ['./pokemon-result.component.css']
 })
