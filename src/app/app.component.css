@@ -1,0 +1,36 @@
+.cabecalho {
+    background-color: darkgreen;
+    height: 200px;
+}
+
+.cabecalho__titulo {
+    margin: auto;
+    width: 1200px;
+    padding-top: 25px;
+}
+
+.cabecalho__titulo--tela-larga {
+    display: block;
+}
+
+.cabecalho__titulo--tela-curta {
+    display: none;
+}
+
+@media only screen and (max-width: 1300px) {
+    .cabecalho {
+        height: 320px;
+    }
+    
+    .cabecalho__titulo {
+        width: 700px;
+    }
+
+    .cabecalho__titulo--tela-larga {
+        display: none;
+    }
+    
+    .cabecalho__titulo--tela-curta {
+        display: block;
+    }
+}
