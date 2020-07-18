@@ -1,1 +1,14 @@
-<p>pokemon-selector works!</p>
+<div class="seletor">
+    <div class="seletor__tipo">
+        <span class="seletor__tipo--label">Tipo:</span>
+        <select class="seletor__tipo--input" [(ngModel)]="tipoSelecionado" >
+            <option *ngFor="let tipo of tipos" [ngValue]="tipo">{{tipo.nome}}</option>
+        </select>
+    </div>
+    <div class="seletor__pokemon">
+        <span class="seletor__pokemon--label">Pokémon:</span>
+        <select class="seletor__pokemon--input" [(ngModel)]="pokemonSelecionado" >
+            <option *ngFor="let pokemon of pokemons" [ngValue]="pokemon">{{pokemon.nome}}</option>
+        </select>
+    </div>
+</div>

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { PokemonSelectorComponent } from './pokemon-selector/pokemon-selector.component';
@@ -14,7 +15,8 @@ import { PokemonResultComponent } from './pokemon-result/pokemon-result.componen
     PokemonResultComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

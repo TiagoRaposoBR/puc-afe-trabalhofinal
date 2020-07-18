@@ -7,6 +7,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PokemonSelectorComponent implements OnInit {
 
+  tipos:any[] = [
+    {
+      nome: 'Grama'
+    },
+    {
+      nome: 'Fogo'
+    }
+  ];
+
+  pokemons:any[] = [
+    {
+      nome: 'Clefairy'
+    },
+    {
+      nome: 'Bulbassauro'
+    }
+  ];
+
+  tipoSelecionado:any = undefined;
+  pokemonSelecionado:any = undefined;
+
   constructor() { }
 
   ngOnInit(): void {
