@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PokemonResultComponent implements OnInit {
 
+  efetivo:number = 0;
+
   constructor() { }
 
   ngOnInit(): void {

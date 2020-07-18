@@ -1,0 +1,21 @@
+.seletor {
+    border-style: groove;
+    padding: 6px;
+    font-size: larger;
+    font-family: cursive;
+}
+
+.seletor__item {
+    margin-bottom: 6px;
+}
+
+.seletor__item--label {
+    width: 100px;
+    display: inline-block;
+}
+
+.seletor__item--input {
+    height: 1.8rem;
+    width: 50%;
+    min-width: 100px;
+}

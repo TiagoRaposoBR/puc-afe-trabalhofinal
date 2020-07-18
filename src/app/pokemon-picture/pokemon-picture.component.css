@@ -1,0 +1,16 @@
+.frame {
+}
+
+.frame__imagem {
+}
+
+.frame__imagem--tamanho {
+    width: 256px;
+    height: 256px;
+    object-fit: contain;
+}
+
+.frame__sombra {
+    position: absolute;
+    bottom: 0;
+}

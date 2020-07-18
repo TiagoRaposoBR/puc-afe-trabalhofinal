@@ -40,8 +40,8 @@
 }
 
 .campo__lateral--picture {
+    display: block;
     margin: 10px;
-    display: flex;
 }
 
 .campo__centro {

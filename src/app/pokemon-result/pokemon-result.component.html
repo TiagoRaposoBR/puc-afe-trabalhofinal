@@ -1,1 +1,7 @@
-<p>pokemon-result works!</p>
+<div class="frame">
+    <img class="frame__efetivo esquerda" *ngIf="efetivo > 3" src="assets/seta_superefetivo_esquerda.png" />
+    <img class="frame__efetivo esquerda" *ngIf="efetivo > 0 && efetivo <= 3" src="assets/seta_efetivo_esquerda.png" />
+    <img class="frame__efetivo empate" *ngIf="efetivo == 0" src="assets/quadrado_empate.png" />
+    <img class="frame__efetivo direita" *ngIf="efetivo < 0 && efetivo >= -3" src="assets/seta_efetivo_esquerda.png" />
+    <img class="frame__efetivo direita" *ngIf="efetivo < -3" src="assets/seta_superefetivo_esquerda.png" />
+</div>

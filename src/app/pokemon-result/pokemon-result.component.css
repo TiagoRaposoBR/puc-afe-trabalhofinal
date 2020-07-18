@@ -1,0 +1,19 @@
+.frame {
+
+}
+
+.frame__efetivo {
+    width: 100px;
+}
+
+.esquerda {
+
+}
+
+.empate {
+
+}
+
+.direita {
+    transform: scaleX(-1);
+}
