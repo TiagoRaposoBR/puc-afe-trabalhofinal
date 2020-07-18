@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ItemDeLista } from 'src/app/interfaces/list-type';
+import { Component, OnInit, Input } from '@angular/core';
+import { ItemDeLista } from 'src/app/definicoes/list-type';
 import { PokemonService } from 'src/app/services/pokemon.service';
+import { Lado } from '../definicoes/enums';
 
 @Component({
   selector: 'pokemon-selector',
@@ -9,6 +10,11 @@ import { PokemonService } from 'src/app/services/pokemon.service';
 })
 export class PokemonSelectorComponent implements OnInit {
 
+  @Input('lado')
+  ladoInput:string;
+
+  lado:Lado;
+  
   carregandoTipo:boolean = false;
   carregandoPokemon:boolean = false;
 
@@ -21,6 +27,10 @@ export class PokemonSelectorComponent implements OnInit {
   constructor(private pokemonService: PokemonService) { }
 
   ngOnInit(): void {
+    if (this.ladoInput == undefined || (this.ladoInput != Lado.Direito && this.ladoInput != Lado.Esquerdo)) {
+      console.error('Lado invalido no elemento pokemon-selector');
+    }
+    
     this.carregandoTipo = true;
     this.pokemonService.getListaTipos().then((typeList: ItemDeLista[]) => {
       this.tipos = typeList;

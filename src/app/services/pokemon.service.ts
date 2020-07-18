@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
 import { ApiServiceService } from './api-service.service';
 import { CacheService } from './cache.service';
-import { ItemDeLista, InfoDeTipo } from 'src/app/interfaces/list-type';
+import { ItemDeLista, InfoDeTipo, ImagemPokemon } from 'src/app/definicoes/list-type';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PokemonService {
 
-  constructor(private apiService: ApiServiceService, private cacheService: CacheService) { }
+  public imagemObservable:Subject<ImagemPokemon>;
+
+  constructor(private apiService: ApiServiceService, private cacheService: CacheService) {
+    this.imagemObservable = new Subject();
+  }
 
   public getListaTipos() {
     return new Promise((resolve) => {

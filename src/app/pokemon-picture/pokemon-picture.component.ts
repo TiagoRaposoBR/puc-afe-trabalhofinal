@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { PokemonService } from '../services/pokemon.service';
+import { ImagemPokemon } from '../definicoes/list-type';
+import { Lado } from '../definicoes/enums';
 
 @Component({
   selector: 'pokemon-picture',
@@ -7,9 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PokemonPictureComponent implements OnInit {
 
-  constructor() { }
+  @Input('lado')
+  ladoInput:string;
+
+  lado:Lado;
+  imagem:string = 'assets/temp_ditto.png';
+  
+  constructor(private pokemonService:PokemonService) { }
 
   ngOnInit(): void {
+    if (this.ladoInput == undefined || (this.ladoInput != Lado.Direito && this.ladoInput != Lado.Esquerdo)) {
+      console.error('Lado invalido no elemento pokemon-picture');
+    }
+
+    this.pokemonService.imagemObservable.subscribe(this.mudarImagem);
   }
 
+  mudarImagem(novaImagem:ImagemPokemon):void {
+    
+  }
 }

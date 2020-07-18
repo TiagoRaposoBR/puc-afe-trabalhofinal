@@ -1,3 +1,5 @@
+import { Lado } from './enums';
+
 export interface ItemDeLista {
     name: string,
     url: string
@@ -42,4 +44,10 @@ export interface InfoDeSprites {
     front_female: string,
     front_shiny: string,
     front_shiny_female: string
+}
+
+export interface ImagemPokemon {
+    name: string,
+    lado: Lado,
+    sprite: string
 }

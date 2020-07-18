@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ItemDeLista, InfoDeTipo, InfoDePokemon } from '../interfaces/list-type';
+import { ItemDeLista, InfoDeTipo, InfoDePokemon } from '../definicoes/list-type';
 
 @Injectable({
   providedIn: 'root'
@@ -8,56 +8,60 @@ export class CacheService {
 
   private chaveCacheTipos: string = "PokemonBattleTipos";
   private chaveCachePokemon: string = "PokemonBattlePokemon";
+  private chaveCacheImagens: string = "PokemonBattleImagens";
   private tipos: any;
   private pokemon: any;
+  private imagens: any;
 
   constructor() {
     this.tipos = {};
     this.pokemon = {};
 
-    let tiposCache:string = localStorage.getItem(this.chaveCacheTipos);
-    if (tiposCache != null) {
-      console.log('Tamanho do cache de tipos: ' + tiposCache.length.toLocaleString() + ' bytes');
-      this.tipos = JSON.parse(tiposCache);
-    }
-
-    let pokemonCache:string = localStorage.getItem(this.chaveCachePokemon);
-    if (pokemonCache != null) {
-      console.log('Tamanho do cache de pokemon: ' + tiposCache.length.toLocaleString() + ' bytes');
-      this.pokemon = JSON.parse(pokemonCache);
-    }
+    this.tipos = this.carregarCache(this.chaveCacheTipos);
+    this.pokemon = this.carregarCache(this.chaveCachePokemon);
+    this.imagens = this.carregarCache(this.chaveCacheImagens);
   }
 
   public getInfoTipo(item: ItemDeLista): InfoDeTipo {
-    if (this.tipos[item.name] != undefined) {
-      return this.tipos[item.name];
-    } else {
-      return undefined;
-    }
+    return this.getInfo<InfoDeTipo>(item.name, this.tipos);
+  }
+
+  public getInfoPokemon(item: ItemDeLista): InfoDePokemon {
+    return this.getInfo<InfoDePokemon>(item.name, this.pokemon);
   }
 
   public setInfoTipo(item: InfoDeTipo): void {
-    if (this.tipos[item.name] == undefined) {
-      this.tipos[item.name] = item;
-      let parsed = JSON.stringify(this.tipos);
-      localStorage.setItem(this.chaveCacheTipos, parsed);
-      console.log('Tamanho do cache de tipos: ' + localStorage.getItem(this.chaveCacheTipos).length.toLocaleString() + ' bytes');
+    this.setInfo(item, this.chaveCacheTipos, this.tipos);
+  }
+
+  public setInfoPokemon(item: InfoDePokemon): void {
+    this.setInfo(item, this.chaveCachePokemon, this.pokemon);
+  }
+
+  //===================== Privados =======================
+  
+  private carregarCache(chave:string):any {
+    let tiposCache:string = localStorage.getItem(chave);
+    if (tiposCache != null) {
+      console.log('Tamanho do cache '+chave+': ' + tiposCache.length.toLocaleString() + ' bytes');
+      return JSON.parse(tiposCache);
     }
   }
 
-  public getInfoPokemon(item: ItemDeLista): InfoDeTipo {
-    if (this.pokemon[item.name] != undefined) {
-      return this.pokemon[item.name];
+  private getInfo<T>(name:string, cache:any):T {
+    if (cache[name] != undefined) {
+      return cache[name];
     } else {
       return undefined;
     }
   }
 
-  public setInfoPokemon(item: InfoDePokemon): void {
-    if (this.pokemon[item.name] == undefined) {
-      this.pokemon[item.name] = item;
-      localStorage.setItem(this.chaveCachePokemon, JSON.stringify(this.pokemon));
-      console.log('Tamanho do cache de pokemon: ' + localStorage.getItem(this.chaveCachePokemon).length.toLocaleString() + ' bytes');
+  public setInfo(item:any, chave:string, cache:any): void {
+    if (cache[item.name] == undefined) {
+      cache[item.name] = item;
+      let parsed = JSON.stringify(cache);
+      localStorage.setItem(chave, parsed);
+      console.log('Tamanho do cache de tipos: ' + localStorage.getItem(chave).length.toLocaleString() + ' bytes');
     }
   }
 }

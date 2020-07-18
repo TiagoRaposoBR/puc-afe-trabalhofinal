@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { ListaDeTipos, ItemDeLista, InfoDeTipo } from 'src/app/interfaces/list-type';
+import { ListaDeTipos, ItemDeLista, InfoDeTipo } from 'src/app/definicoes/list-type';
 
 
 @Injectable({
