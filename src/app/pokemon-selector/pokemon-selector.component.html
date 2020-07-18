@@ -1,14 +1,21 @@
 <div class="seletor">
-    <div class="seletor__item">
+    <div class="seletor__item" *ngIf="carregandoTipo">
+        Carregando...
+    </div>
+    <div class="seletor__item" *ngIf="!carregandoTipo">
         <span class="seletor__item--label">Tipo:</span>
-        <select class="seletor__item--input" [(ngModel)]="tipoSelecionado" >
-            <option *ngFor="let tipo of tipos" [ngValue]="tipo">{{tipo.nome}}</option>
+        <select class="seletor__item--input" [ngModel]="tipoSelecionado" (ngModelChange)="selecionarTipo($event)" >
+            <option *ngFor="let tipo of tipos" [ngValue]="tipo">{{tipo.name}}</option>
         </select>
     </div>
-    <div class="seletor__item">
+
+    <div class="seletor__item" *ngIf="carregandoPokemon">
+        Carregando...
+    </div>
+    <div class="seletor__item" *ngIf="!carregandoPokemon">
         <span class="seletor__item--label">Pokémon:</span>
-        <select class="seletor__item--input" [(ngModel)]="pokemonSelecionado" >
-            <option *ngFor="let pokemon of pokemons" [ngValue]="pokemon">{{pokemon.nome}}</option>
+        <select class="seletor__item--input" [ngModel]="pokemonSelecionado" (ngModelChange)="selecionarPokemon($event)" >
+            <option *ngFor="let pokemon of pokemons" [ngValue]="pokemon">{{pokemon.name}}</option>
         </select>
     </div>
 </div>
