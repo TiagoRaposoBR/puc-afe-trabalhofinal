@@ -45,9 +45,3 @@ export interface InfoDeSprites {
     front_shiny: string,
     front_shiny_female: string
 }
-
-export interface ImagemPokemon {
-    name: string,
-    lado: Lado,
-    sprite: string
-}

@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+// import {LZStringService} from 'ng-lz-string';
+import * as lz from 'lz-string';
 import { ItemDeLista, InfoDeTipo, InfoDePokemon } from '../definicoes/list-type';
 
 @Injectable({
@@ -13,7 +15,7 @@ export class CacheService {
   private pokemon: any;
   private imagens: any;
 
-  constructor() {
+  constructor(/* private lz: LZStringService */) {
     this.tipos = {};
     this.pokemon = {};
 
@@ -41,10 +43,12 @@ export class CacheService {
   //===================== Privados =======================
   
   private carregarCache(chave:string):any {
-    let tiposCache:string = localStorage.getItem(chave);
-    if (tiposCache != null) {
+    let tiposCache:string = lz.decompress(localStorage.getItem(chave));
+    if (tiposCache != null && tiposCache.length > 0) {
       console.log('Tamanho do cache '+chave+': ' + tiposCache.length.toLocaleString() + ' bytes');
       return JSON.parse(tiposCache);
+    } else {
+      return {};
     }
   }
 
@@ -60,8 +64,8 @@ export class CacheService {
     if (cache[item.name] == undefined) {
       cache[item.name] = item;
       let parsed = JSON.stringify(cache);
-      localStorage.setItem(chave, parsed);
-      console.log('Tamanho do cache de tipos: ' + localStorage.getItem(chave).length.toLocaleString() + ' bytes');
+      localStorage.setItem(chave, lz.compress(parsed));
+      console.log('Tamanho do cache '+chave+': ' + localStorage.getItem(chave).length.toLocaleString() + ' bytes');
     }
   }
 }

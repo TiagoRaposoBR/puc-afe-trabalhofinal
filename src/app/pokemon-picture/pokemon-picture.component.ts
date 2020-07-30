@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PokemonService } from '../services/pokemon.service';
-import { ImagemPokemon } from '../definicoes/list-type';
 import { Lado } from '../definicoes/enums';
+import { InfoDePokemon } from '../definicoes/list-type';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'pokemon-picture',
@@ -11,22 +12,25 @@ import { Lado } from '../definicoes/enums';
 export class PokemonPictureComponent implements OnInit {
 
   @Input('lado')
-  ladoInput:string;
-
   lado:Lado;
+
   imagem:string = 'assets/temp_ditto.png';
+
+  pokemonSubscription: Subscription;
   
   constructor(private pokemonService:PokemonService) { }
 
   ngOnInit(): void {
-    if (this.ladoInput == undefined || (this.ladoInput != Lado.Direito && this.ladoInput != Lado.Esquerdo)) {
+    if (this.lado == undefined || (this.lado != Lado.Direito && this.lado != Lado.Esquerdo)) {
       console.error('Lado invalido no elemento pokemon-picture');
     }
 
-    this.pokemonService.imagemObservable.subscribe(this.mudarImagem);
+    this.pokemonSubscription = this.pokemonService.pokemonObservable[this.lado].subscribe((novoPokemon) => this.mudarImagem(novoPokemon));
   }
 
-  mudarImagem(novaImagem:ImagemPokemon):void {
-    
+  mudarImagem(infoPokemon:InfoDePokemon):void {
+    if (infoPokemon != undefined){
+      this.imagem = infoPokemon.sprites.front_default;
+    }
   }
 }
