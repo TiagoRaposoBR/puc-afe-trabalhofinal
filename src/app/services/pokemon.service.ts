@@ -18,7 +18,7 @@ export class PokemonService {
     this.pokemonObservable[Lado.Esquerdo] = new BehaviorSubject<InfoDePokemon>(undefined);
   }
  
-  public getListaTipos() {
+  public getListaTipos(): Promise<ItemDeLista[]> {
     return new Promise((resolve) => {
 
       this.apiService.getListaTipos().then((typeList: ItemDeLista[]) => {
@@ -32,22 +32,31 @@ export class PokemonService {
     })
   }
 
-  public getListaPokemon(tipoItem: ItemDeLista): Promise<ItemDeLista[]> {
+  public getInfoTipo(tipoItem: ItemDeLista): Promise<InfoDeTipo> {
     return new Promise((resolve) => {
 
       let tipoInfoCache: InfoDeTipo = this.cacheService.getInfoTipo(tipoItem);
       if (tipoInfoCache != undefined) {
-        resolve(tipoInfoCache.pokemon);
+        resolve(tipoInfoCache);
 
       } else {
         this.apiService.getInfoTipo(tipoItem.url).then((tipoInfoNovo: InfoDeTipo) => {
-          tipoInfoNovo.pokemon = tipoInfoNovo.pokemon.map<ItemDeLista>((pokemon:ItemDeLista):ItemDeLista => {
-            return pokemon['pokemon'];
-          });
           this.cacheService.setInfoTipo(tipoInfoNovo);
-          resolve(tipoInfoNovo.pokemon);
+          resolve(tipoInfoNovo);
         });
       }
+    });
+  }
+
+  public getListaPokemon(tipoItem: ItemDeLista): Promise<ItemDeLista[]> {
+    return new Promise((resolve) => {
+
+      this.getInfoTipo(tipoItem).then((tipoInfo: InfoDeTipo) => {
+        tipoInfo.pokemon = tipoInfo.pokemon.map<ItemDeLista>((pokemon:ItemDeLista):ItemDeLista => {
+          return pokemon['pokemon'];
+        });
+        resolve(tipoInfo.pokemon);
+      });
     });
   }
 

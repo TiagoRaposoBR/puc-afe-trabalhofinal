@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { PokemonService } from '../services/pokemon.service';
 import { Lado } from '../definicoes/enums';
 import { InfoDePokemon } from '../definicoes/list-type';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'pokemon-picture',
@@ -14,9 +13,7 @@ export class PokemonPictureComponent implements OnInit {
   @Input('lado')
   lado:Lado;
 
-  imagem:string = 'assets/temp_ditto.png';
-
-  pokemonSubscription: Subscription;
+  imagem:string = 'assets/vazio.png';
   
   constructor(private pokemonService:PokemonService) { }
 
@@ -25,7 +22,7 @@ export class PokemonPictureComponent implements OnInit {
       console.error('Lado invalido no elemento pokemon-picture');
     }
 
-    this.pokemonSubscription = this.pokemonService.pokemonObservable[this.lado].subscribe((novoPokemon) => this.mudarImagem(novoPokemon));
+    this.pokemonService.pokemonObservable[this.lado].subscribe((novoPokemon) => this.mudarImagem(novoPokemon));
   }
 
   mudarImagem(infoPokemon:InfoDePokemon):void {
