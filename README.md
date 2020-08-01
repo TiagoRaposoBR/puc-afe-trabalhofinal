@@ -1,27 +1,26 @@
 # PucAfeTrabalhofinal
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.1.
+Trabalho final da disciplina Arquitetura de Front End, do curso de Arquitetura de Sistemas Distribuídos da PUC Minas.
 
-## Development server
+## Como rodar
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1. Rode `npm install` na raiz do projeto.
 
-## Code scaffolding
+2. Rode `ng serve` para rodar o projeto em `http://localhost:4200/`.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Observações
 
-## Build
+Em alguns casos, o cache pode se corromper, e a seleção de um tipo não traz a lista dos pokemon.
+O problema pode ser visto ao selecionar um tipo, e a lista de pokemon ficar vazia, ou aparecer um erro no console.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Caso aconteça, siga os passos abaixo:
 
-## Running unit tests
+1. Abra o console de desenvolvimento do browser;
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+2. Abra a aba Application;
 
-## Running end-to-end tests
+3. Selecione Storage -> Local Storage -> http://localhost:4200;
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+4. Apague as chaves PokemonBattlePokemon e PokemonBattleTipos;
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+5. Atualize a página.
