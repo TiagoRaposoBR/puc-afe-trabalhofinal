@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PokemonService } from '../services/pokemon.service';
 import { InfoDePokemon, ItemDeLista, InfoDeTipo, InfoDeDano } from '../definicoes/list-type';
 import { Lado } from '../definicoes/enums';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'pokemon-result',
@@ -10,11 +11,11 @@ import { Lado } from '../definicoes/enums';
 })
 export class PokemonResultComponent implements OnInit {
 
-  efetivo:number = 0;
-  pokemonEsquerdo:InfoDePokemon;
-  pokemonDireito:InfoDePokemon;
-  pokemonEsquerdoDamages:InfoDeDano[];
-  pokemonDireitoDamages:InfoDeDano[];
+  public efetivo:number = 0;
+  public pokemonEsquerdo:InfoDePokemon;
+  public pokemonDireito:InfoDePokemon;
+  public pokemonEsquerdoDamages:InfoDeDano[];
+  public pokemonDireitoDamages:InfoDeDano[];
 
   constructor(private pokemonService:PokemonService) { }
 
@@ -23,15 +24,44 @@ export class PokemonResultComponent implements OnInit {
     this.pokemonDireitoDamages = [];
     let that = this;
 
-    this.pokemonService.pokemonObservable[Lado.Direito].subscribe((novoPokemon) => {
-      this.atualizarPokemon(novoPokemon, this.pokemonDireito, this.pokemonDireitoDamages).then(() => {
-        this.batalhaPokemon();
+    this.pokemonService.pokemonObservable[Lado.Direito].subscribe(novoPokemon => {
+      if (novoPokemon == undefined) {
+        return;
+      }
+      this.efetivo = 0;
+      this.pokemonDireito = novoPokemon;
+      let typeCount = this.pokemonDireito.types.length;
+      this.pokemonDireito.types.forEach((tipo:any) => {
+        let tipoItem:ItemDeLista = tipo.type;
+        this.pokemonService.getInfoTipo(tipoItem).then((tipoInfo:InfoDeTipo) => {
+          this.pokemonDireitoDamages.push(tipoInfo.damage_relations);
+          typeCount--;
+          if (typeCount == 0) {
+            this.batalhaPokemon();
+          }
+        });
       });
     });
 
-    this.pokemonService.pokemonObservable[Lado.Esquerdo].subscribe((novoPokemon) => {
-      this.atualizarPokemon(novoPokemon, this.pokemonEsquerdo, this.pokemonEsquerdoDamages).then(() => {
+    this.pokemonService.pokemonObservable[Lado.Esquerdo].subscribe(novoPokemon => {
+      /* this.atualizarPokemon(novoPokemon, this.pokemonEsquerdo, this.pokemonEsquerdoDamages).then(() => {
         this.batalhaPokemon();
+      }); */
+      if (novoPokemon == undefined) {
+        return;
+      }
+      this.efetivo = 0;
+      this.pokemonEsquerdo = novoPokemon;
+      let typeCount = this.pokemonEsquerdo.types.length;
+      this.pokemonEsquerdo.types.forEach((tipo:any) => {
+        let tipoItem:ItemDeLista = tipo.type;
+        this.pokemonService.getInfoTipo(tipoItem).then((tipoInfo:InfoDeTipo) => {
+          this.pokemonEsquerdoDamages.push(tipoInfo.damage_relations);
+          typeCount--;
+          if (typeCount == 0) {
+            this.batalhaPokemon();
+          }
+        });
       });
     });
   }
@@ -80,8 +110,8 @@ export class PokemonResultComponent implements OnInit {
 
   private compararDano(damage:ItemDeLista[], outroPokemon:InfoDePokemon, valorDano:number) {
     damage.forEach((tipo:ItemDeLista) => {
-      outroPokemon.types.forEach((tipoOponente:ItemDeLista) => {
-        if (tipo == tipoOponente) {
+      outroPokemon.types.forEach((tipoOponente:any) => {
+        if (tipo.name == tipoOponente.type.name) {
           this.efetivo += valorDano;
         }
       });

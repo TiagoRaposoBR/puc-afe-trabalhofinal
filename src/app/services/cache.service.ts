@@ -40,6 +40,12 @@ export class CacheService {
     this.setInfo(item, this.chaveCachePokemon, this.pokemon);
   }
 
+  public limparInfoTipo(item: ItemDeLista): void {
+    if (this.tipos[item.name] != undefined) {
+      delete this.tipos[item.name];
+    }
+  }
+
   //===================== Privados =======================
   
   private carregarCache(chave:string):any {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiServiceService } from './api-service.service';
 import { CacheService } from './cache.service';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject, Observable } from 'rxjs';
 import { InfoDePokemon, InfoDeTipo, ItemDeLista } from '../definicoes/list-type';
 import { Lado } from '../definicoes/enums';
 
@@ -10,10 +10,10 @@ import { Lado } from '../definicoes/enums';
 })
 export class PokemonService {
 
-  public pokemonObservable:[];
+  public pokemonObservable:any;
 
   constructor(private apiService: ApiServiceService, private cacheService: CacheService) {
-    this.pokemonObservable = [];
+    this.pokemonObservable = {};
     this.pokemonObservable[Lado.Direito] = new BehaviorSubject<InfoDePokemon>(undefined);
     this.pokemonObservable[Lado.Esquerdo] = new BehaviorSubject<InfoDePokemon>(undefined);
   }
@@ -36,7 +36,8 @@ export class PokemonService {
     return new Promise((resolve) => {
 
       let tipoInfoCache: InfoDeTipo = this.cacheService.getInfoTipo(tipoItem);
-      if (tipoInfoCache != undefined) {
+      // Em algum momento, o cache se corrompe, e os pokemon do infoTipo ficam nulos; nesse caso, pegue de novo
+      if (tipoInfoCache != undefined && tipoInfoCache.pokemon.length > 0 && tipoInfoCache.pokemon[0] != null) {
         resolve(tipoInfoCache);
 
       } else {
